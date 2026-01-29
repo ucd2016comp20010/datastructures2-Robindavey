@@ -1,8 +1,6 @@
 package project20280.list;
-
-import project20280.interfaces.List;
-
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SinglyLinkedList<E> implements List<E> {
 
@@ -22,8 +20,8 @@ public class SinglyLinkedList<E> implements List<E> {
          * @param n reference to a node that should follow the new node
          */
         public Node(E e, Node<E> n) {
-            // TODO
-        }
+            this.element = e;
+            setNext(n);       }
 
         // Accessor methods
 
@@ -33,9 +31,8 @@ public class SinglyLinkedList<E> implements List<E> {
          * @return the element stored at the node
          */
         public E getElement() {
-            return null;
+            return element;
         }
-
         /**
          * Returns the node that follows this one (or null if no such node).
          *
@@ -43,7 +40,7 @@ public class SinglyLinkedList<E> implements List<E> {
          */
         public Node<E> getNext() {
             // TODO
-            return null;
+            return next;
         }
 
         // Modifier methods
@@ -54,7 +51,7 @@ public class SinglyLinkedList<E> implements List<E> {
          * @param n the node that should follow this one
          */
         public void setNext(Node<E> n) {
-            // TODO
+            next = n;
         }
     } //----------- end of nested Node class -----------
 
@@ -72,56 +69,143 @@ public class SinglyLinkedList<E> implements List<E> {
     public SinglyLinkedList() {
     }              // constructs an initially empty list
 
-    //@Override
+    @Override
     public int size() {
-        // TODO
-        return 0;
-    }
-
-    //@Override
-    public boolean isEmpty() {
-        // TODO
-        return false;
+        return size;
     }
 
     @Override
+    public boolean isEmpty() {
+        if (size == 0  || head == null)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
     public E get(int position) {
-        // TODO
-        return null;
+        Node <E> cur = head;
+        int pos = 0;
+        while (cur.getNext() != null && pos < position)
+        {
+            cur = cur.getNext();
+            pos++;
+        }
+        return cur.getElement();
     }
 
     @Override
     public void add(int position, E e) {
-        // TODO
+        Node <E> cur = head;
+        int pos = 0;
+        Node<E> newNode = new Node<E>(e, null);
+        if (head == null)
+        {
+            head = newNode;
+            size++;
+
+        }
+        while (cur != null && pos < position-1)
+        {
+            cur = cur.getNext();
+            pos++;
+        }
+        newNode.setNext(cur.getNext());
+        cur.setNext(newNode);
+        size++;
     }
 
 
     @Override
     public void addFirst(E e) {
-        // TODO
+        Node<E> newNode = new Node<E>(e, null);
+        newNode.setNext(head);
+        head = newNode;
+        size++;
     }
 
     @Override
     public void addLast(E e) {
-        // TODO
+        Node<E> newNode = new Node<E>(e, null);
+        Node<E> cur = head;
+        if (head == null)
+        {
+            head = newNode;
+            size++;
+
+        }
+        else {
+            while (cur.next != null)
+            {
+                cur = cur.getNext();
+            }
+            cur.setNext(newNode);
+            size++;
+        }
+
     }
 
     @Override
     public E remove(int position) {
-        // TODO
-        return null;
+        Node<E> removedNode;
+
+        if (position == 0) {
+            // Remove head
+            removedNode = head;
+            head = head.getNext();
+        } else {
+            // Find the node just before the one to remove
+            Node<E> prev = head;
+            for (int i = 0; i < position - 1; i++) {
+                prev = prev.getNext();
+            }
+            removedNode = prev.getNext();
+            prev.setNext(removedNode.getNext());
+        }
+
+        removedNode.setNext(null); // clean up
+        size--;
+        return removedNode.getElement();
     }
 
     @Override
     public E removeFirst() {
-        // TODO
-        return null;
+        if (this.isEmpty())
+        {
+            return null;
+        }
+        E out = head.getElement();
+        head=head.getNext();
+        size--;
+        return out;
     }
 
     @Override
     public E removeLast() {
-        // TODO
-        return null;
+        if (isEmpty()) {
+            return null; // nothing to remove
+        }
+
+        if (size == 1) {
+            // Only one element
+            E out = head.getElement();
+            head = null;
+            size--;
+            return out;
+        }
+
+        // More than one element
+        Node<E> cur = head;
+        for (int i = 0; i < size - 2; i++) {
+            cur = cur.getNext();
+        }
+
+        // cur is now the second-to-last node
+        E out = cur.getNext().getElement();
+        cur.setNext(null); // remove last node
+        size--;
+        return out;
     }
 
     //@Override
@@ -157,6 +241,31 @@ public class SinglyLinkedList<E> implements List<E> {
         sb.append("]");
         return sb.toString();
     }
+    public boolean contains(Objects o)
+    {
+        Node<E> cur = head;
+        while (cur.next != null)
+        {
+            if (cur.getElement().equals(o))
+            {
+                return true;
+            }
+            cur = cur.getNext();
+        }
+        return false;
+    }
+
+    public List<E> subList(int fromIndex, int toIndex) {
+        SinglyLinkedList<E> smallList = new SinglyLinkedList<E>();
+        Node<E> cur = head;
+        int pos = 0;
+        while (cur.getNext() != null && pos < toIndex)
+        {
+            smallList.addLast(cur.getElement());
+            cur = cur.getNext();
+        }
+        return smallList;
+    }
 
     public static void main(String[] args) {
         SinglyLinkedList<Integer> ll = new SinglyLinkedList<Integer>();
@@ -169,6 +278,7 @@ public class SinglyLinkedList<E> implements List<E> {
         ll.addFirst(3);
         ll.addFirst(4);
         ll.addLast(-1);
+        ll.add(2, 3);
         //ll.removeLast();
         //ll.removeFirst();
         //System.out.println("I accept your apology");
