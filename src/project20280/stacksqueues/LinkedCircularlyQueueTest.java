@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class LinkedQueueTest {
+class LinkedCircularlyQueueTest {
 
     @Test
     void testSize() {
-        LinkedQueue<Integer> s = new LinkedQueue<>();
+        LinkedCircularQueue<Integer> s = new LinkedCircularQueue<>();
         for (int i = 0; i < 10; ++i)
             s.enqueue(i);
         assertEquals(10, s.size());
@@ -16,7 +16,7 @@ class LinkedQueueTest {
 
     @Test
     void testIsEmpty() {
-        LinkedQueue<Integer> s = new LinkedQueue<>();
+        LinkedCircularQueue<Integer> s = new LinkedCircularQueue<>();
         for (int i = 0; i < 10; ++i)
             s.enqueue(i);
         for (int i = 0; i < 10; ++i)
@@ -26,7 +26,7 @@ class LinkedQueueTest {
 
     @Test
     void testEnqueue() {
-        LinkedQueue<Integer> s = new LinkedQueue<>();
+        LinkedCircularQueue<Integer> s = new LinkedCircularQueue<>();
         for (int i = 0; i < 10; ++i)
             s.enqueue(i);
         assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", s.toString());
@@ -34,7 +34,7 @@ class LinkedQueueTest {
 
     @Test
     void testFirst() {
-        LinkedQueue<Integer> s = new LinkedQueue<>();
+        LinkedCircularQueue<Integer> s = new LinkedCircularQueue<>();
         for (int i = 0; i < 10; ++i)
             s.enqueue(i);
         assertEquals(0, s.first());
@@ -42,7 +42,7 @@ class LinkedQueueTest {
 
     @Test
     void testDequeue() {
-        LinkedQueue<Integer> s = new LinkedQueue<>();
+        LinkedCircularQueue<Integer> s = new LinkedCircularQueue<>();
         for (int i = 0; i < 10; ++i)
             s.enqueue(i);
 

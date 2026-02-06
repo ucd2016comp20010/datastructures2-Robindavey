@@ -1,8 +1,8 @@
 package project20280.list;
 
-import project20280.interfaces.List;
-
 import java.util.Iterator;
+
+import project20280.interfaces.List;
 
 public class DoublyLinkedList<E> implements List<E> {
 
@@ -80,45 +80,38 @@ public class DoublyLinkedList<E> implements List<E> {
     @Override
     public void add(int i, E e) {
         Node<E> cur = head;
-        Node<E> newNode = new Node<>(e, head,null);
-        int pos = 0;
-        while (pos < i && cur.next != null)
-        {
+        
+        for (int pos = 0; pos < i; pos++) {
             cur = cur.next;
-            pos++;
         }
-        newNode.next = cur.next;
-        cur.next.prev = newNode;
+        
+        Node<E> succ = cur.next;
+        Node<E> newNode = new Node<>(e, cur, succ);
+        
         cur.next = newNode;
-        newNode.prev = cur;
+        succ.prev = newNode;
+        
         size++;
-
     }
 
 
     @Override
     public E remove(int i) {
-        Node<E> removedNode;
-
-        if (i == 0) {
-            // Remove head
-            removedNode = head;
-            head = head.getNext();
-        } else {
-            // Find node just before the one to remove
-            Node<E> prev = head;
-            for (int j = 0; j < i; j++) {
-                prev = prev.getNext();
-            }
-            removedNode = prev.getNext();
-            prev.next = removedNode.getNext();
+        Node<E> cur = head.next;
+        
+        for (int j = 0; j < i; j++) {
+            cur = cur.next;
         }
-
-        removedNode.next = null; // optional: clean up
+        
+        Node<E> pred = cur.prev;
+        Node<E> succ = cur.next;
+        
+        pred.next = succ;
+        succ.prev = pred;
+        
         size--;
-        return removedNode.getData();
+        return cur.getData();
     }
-
     private class DoublyLinkedListIterator<E> implements Iterator<E> {
         Node<E> curr = (Node<E>) head.next;
 

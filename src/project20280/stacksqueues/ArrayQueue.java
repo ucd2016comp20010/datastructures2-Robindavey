@@ -4,14 +4,13 @@ import project20280.interfaces.Queue;
 
 public class ArrayQueue<E> implements Queue<E> {
 
-    private static final int CAPACITY = 1000;
+    private static  int CAPACITY = 1000;
     private E[] data;
-    private final int front = 0;
-    private final int size = 0;
-
+    private int front = 0;
+    private int size = 0;
+    private int rear = 0;
     public ArrayQueue(int capacity) {
-        // TODO
-
+        this.data = (E[]) new Object[capacity];
     }
 
     public ArrayQueue() {
@@ -21,17 +20,19 @@ public class ArrayQueue<E> implements Queue<E> {
 
     @Override
     public int size() {
-        return size;
+        return this.size;
     }
 
     @Override
     public boolean isEmpty() {
-        return size == 0;
+        return this.size == 0;
     }
 
     @Override
     public void enqueue(E e) {
-        // TODO
+        data[rear] = e;
+        rear= (rear+1)%data.length;
+        this.size++;
     }
 
     @Override
@@ -41,14 +42,18 @@ public class ArrayQueue<E> implements Queue<E> {
 
     @Override
     public E dequeue() {
-        // TODO
-        return null;
+        if (isEmpty()) return null;
+        E value = data[front];
+        data[front] = null;
+        front = (front + 1) % data.length;
+        this.size--;
+        return value;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < size; ++i) {
-            E res = data[(front + i) % CAPACITY];
+            E res = data[(front + i) % data.length];
             sb.append(res);
             if (i != size - 1) sb.append(", ");
         }

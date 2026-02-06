@@ -1,10 +1,10 @@
 package project20280.list;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class DoublyLinkedListTest {
 
@@ -59,6 +59,13 @@ class DoublyLinkedListTest {
         ll.addFirst(-1);
         ll.addFirst(-2);
         assertEquals(-1, ll.removeLast());
+    }
+    @Test
+    void testRemoveFirst() {
+        DoublyLinkedList<Integer> ll = new DoublyLinkedList<>();
+        ll.addFirst(-1);
+        ll.addFirst(-2);
+        assertEquals(-2, ll.removeFirst());
     }
 
     @Test
